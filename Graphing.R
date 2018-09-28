@@ -22,9 +22,47 @@ colnames(wages) <- c('Index','Receive.Wages','Wage.Amt')
 head(wages)
 
 attach(wages)
-
-table(Receive.Wages)
 barplot(table(Receive.Wages),main ="Does your spouse receive a wage?",names.arg=c('No','Yes'),col=c('red','orange'))
+detach(wages)
 
-#Complex Bar Graph
-ironcontent <- 
+#Pie Chart
+#pie(data,labels,colour,main title,radius of circle)
+a <- c(1,2,2,1,3,2,1,2,1,3,1,3,3,1,2,2,1,1,1,2,1,3,1,1,3,3)
+pie(table(a),labels=c(1:3),col=rainbow(3),main="Pie Chart",radius=1)
+
+#Boxplot
+#boxplot(data,main title, name of each boxplot,colour)
+
+install.packages("datasets")
+library("datasets")
+
+dat <- Titanic
+head(dat)
+dat
+
+dat[,,,2]
+dim(dat)
+
+dat2 <- as.data.frame(dat)
+dat2
+
+attach(dat2)
+table(dat2$Freq,dat2$Sex)
+
+tabdat <- Freq~factor(Sex)+factor(Class)
+boxplot(tabdat,main="Death Toll on Titanic",names=c("M 1st","F 1st","M 2nd","F 2nd","M 3rd","F 3rd","MCrew","FCrew"),col = c('red','yellow'))
+
+avgdeath <- tapply(Freq,list(Sex,Class),mean,na.rm=T)
+
+par(mfrow=c(2,2))
+boxplot(Freq~factor(Sex), main = "By Sex")
+boxplot(Freq~factor(Class), main="By Class")
+boxplot(Freq~factor(Age), main="By Age")
+boxplot(Freq~factor(Survived), main="By Survivorship")
+
+
+
+
+#dataset - cause of death Federal stats
+#https://catalog.data.gov/dataset/age-adjusted-death-rates-for-the-top-10-leading-causes-of-death-united-states-2013
+
