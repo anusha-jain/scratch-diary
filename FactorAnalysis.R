@@ -31,8 +31,8 @@ library(paran)
 paran(facor)
 
 #Step 3a - factor analysis
-#factanal(x=dataset OR covmat=the correlation matrix,factors,rotation)
-fa.res <- factanal(covmat = facor,factors=3, rotation = "varimax")
+#factanal(x=dataset OR covmat=the correlation matrix,factors,rotation, score type = Bartlett or regression)
+fa.res <- factanal(covmat = facor,factors=3, rotation = "varimax", scores='Bartlett')
 
 ?factanal
 
@@ -60,4 +60,3 @@ checkfit <- cfa(model=model,data=fadata)
 
 #how valid is the fit? 
 summary(checkfit,fit.measures=T)
-#retry with new criteria e.g. remove loading <0.3
