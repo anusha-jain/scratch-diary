@@ -1,0 +1,36 @@
+<html>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+
+  <style>
+.chart div {
+  font: 10px sans-serif;
+  background-color: steelblue;
+  text-align: left;
+  padding: 10px;
+  margin: 5px;
+  color: white;
+}
+  </style>
+  
+  <body>
+    My name is alex.
+    <div class="chart">
+      
+    </div>
+    
+  </body>
+    <script>
+      var dat = [4, 8, 15, 16, 23, 42];
+		       
+    var body = d3.select("body");
+    body.style("color", "white");
+    body.style("background-color", "black");
+
+    d3.select(".chart")
+      .selectAll("div")
+         .data(dat)
+      .enter().append("div")
+         .style("width", function(d) { return d * 10 + "px"; })
+         .text(function(d) { return d + " mpg"; });
+    </script>
+</html>
