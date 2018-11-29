@@ -83,7 +83,7 @@ summary(model3.s)
 detach(swiss)
 
 ##Categorical Variables
-#when the Predictive Variables are Categorical
+#######when the Predictive Variables are Categorical
 attach(birthwt)
 
 head(birthwt)
@@ -122,6 +122,34 @@ summary(model5.cat)
 anova(model5.cat)
 
 #Multiple Categorical Variables
+model1 <- lm(bwt~race.cat)
+
+model2 <- lm(bwt~race.cat+smoke.cat)
+summary(model2)
+#the regression formula will change based on the dummy values of both categorical variables
+
+anova(model1,model2)
+#there is a significant difference made to the model by adding smoke.cat
+
+#to check how the two categorical variables interact
+model <- lm(bwt~race.cat*smoke.cat)
+summary(model)
+
+#two compare two specific combinations of the 2 categorical variables
+install.packages('contrast')
+library(contrast)
+?contrast
+#contrast(the regression model used, the first combination, the second combination)
+contrast(model, 
+         list(race.cat='White',smoke.cat='Yes'),
+         list(race.cat='Black',smoke.cat='No'))
+
+#Appropriate alpha = (n(n-1))/2
 
 
-#When the Outcome Variable is Categorical
+#######When the Outcome Variable is Categorical
+
+
+#Moderation Effects
+
+#Mediation Effects
