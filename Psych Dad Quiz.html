@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<head>
+
+<style>
+body {background-color:antiquewhite;text-align:center;
+		font-family:verdana;color:darkmagenta;}
+button {font-family:verdana;font-size:12px;
+		background-color:grey;border-radius:5px;
+		color:antiquewhite;display:inline-block;
+		border:none;padding:12px 28px}
+		
+button:hover {font-family:verdana;font-size:12px;
+		background-color:antiquewhite;border-radius:5px;
+		display:inline-block;color:grey;
+		border:5px solid grey;padding:12px 28px}
+		
+.grid-container{display:grid}
+#button1 {grid-column-start:1;grid-column-end:2
+		grid-row-start:1;grid-row-end:2}
+		
+#button2 {grid-column-start:3;grid-column-end:4
+		grid-row-start:1;grid-row-end:2}
+</style>
+
+<title>Psych Dad's Quiz</title>
+
+</head>
+
+<body>
+
+<h1 style="font-size:38px">How Do Psych Dads Rate Their Naps</h1>
+<h2 stylw="font-size:30px">With a Z-score</h2>
+
+<div class="grid-container">
+<div id="button1" class="grid-item">
+<button type="button" style="font-size:30px"> Y </button>
+</div>
+<div id="button2" class="grid-item">
+<button type="button" style="font-size:30px"> N </button>
+</div>
+</body>
