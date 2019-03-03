@@ -148,8 +148,120 @@ contrast(model,
 
 
 #######When the Outcome Variable is Categorical
+attach(birthwt)
+#naive regression
+model <- lm(ui~age+lwt)
+summary(model)
+#instead of looking at whether the value of y will be one category or another, look at the probability of y being any category
+#the transformation means that y will not only be 0,1 or whatever groups but 0-1 decimal probability, more usable
+
+model <- glm(ui~age+lwt, family=binomial(link='logit')) 
+#family specifies qualities of distribution
+summary(model)
 
 
 #Moderation Effects
 
+#The strength of the relationship between Predictor X and Outcome Y is influenced by a 3rd variable
+
+#y = a + b1x1 +b2z + b3(x1z) <- over here, z influences x
+#when you separate the models into the levels of z, you need different slopes
+
+#y = a + b1x1 +b2z <- over here, the relationship between x and y is independent of z
+#when you separate the models into the levels of z, you may have different intercepts but the same slope NOT MODERATION
+
+#######Moderating Variable is Categorical
+model <- lm(bwt ~ age + ui + age*ui)
+summary(model)
+#presence or absence of categorical variable changes intercept and slope by specific values
+#without ui
+#bwt = 2767.26 + 11.26age 
+#with ui
+#bwt = 2544.69 - 4.27age
+
+#comparative plotting
+plot(ui,bwt,type='n',main="Comparative Reg Model")
+abline(2767.26, 11.26)
+abline(2544.69,-4.27,lty=2)
+legend('topright',c('With','Without'),lty=c(1,2))
+
+#######Moderating Variable is Continuous
+model <- lm(bwt~ age+lwt + age*lwt)
+summary(model)
+
 #Mediation Effects
+medData <- read.csv('http://static.lib.virginia.edu/statlab/materials/data/mediationData.csv')
+head(medData)
+attach(medData)
+
+#Variables that explain the direction of a relationship
+#x -> mediator -> y
+
+#Direct Effect of X on Y- unit change in X causes a change in Y of c' units
+#Indirect Effect of X on M on Y- unit change in x causes M change in a which causes ab change in Y
+#Total Effect C = a*b + c'
+
+#step 1 - X -> Y
+summary(lm(Y~X))
+#significant
+
+#step 2 - X -> M = a
+summary(lm(M~X))
+#significant
+
+#step 3 X -> Y = c' and M -> Y = b
+summary(lm(Y~X+M))
+#X->Y not significant
+#M -> significant
+
+n <- length(X)
+boot.ab.all <- NULL
+
+for(i in 1:1000){
+  index <- sample(1:n,replace=T)
+  boot.X <- X[index]
+  boot.M <- M[index]
+  boot.Y <- Y[index]
+  boot.a.model <- lm(boot.M~boot.X)
+  boot.b.model <- lm(boot.Y~boot.M)
+  boot.a <- boot.a.model$coefficients[2]
+  boot.b <- boot.b.model$coefficients[2]
+  boot.ab <- boot.a*boot.b
+  boot.ab.all <- cbind(boot.ab.all,boot.ab)
+}
+
+boot.ab.all
+
+#package coding
+install.packages('bmem')
+library(bmem)
+
+#define model
+med.model <- specifyModel()
+X -> M, a
+M -> Y, b
+X -> Y, cp
+X <-> X, s1   ##standard errors
+M <-> M, s2
+Y <-> Y, s3
+
+##OR
+me.model <- specifyEquations(exog,variances=T)
+Y = b*M + cp*X
+M = a*X
+
+#indirect effect
+mediator <- 'a*b'
+
+#Sobel Test
+#standard error estimate of ab
+#se <- sqrt(a^2s^2 +b^2s^2)
+#z score = ab/se
+
+#bmem.sobel(data,model,effects)
+med.res.sobel <- bmem.sobel(medData,med.model,mediator)
+
+#Confidence intervals Bootstrap
+#bmem(data,model,effects,bootstrap number)
+med.res.boot <- bmem(medData,med.model,mediator,boot=1000)
+#if CI does not include 0 it is significant
