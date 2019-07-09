@@ -1,7 +1,7 @@
 #T-testing
 #t.test(x,y,default wo-tailed or greater or lesser)
 
-library("datasets")
+library(datasets)
 
 dat <- swiss
 head(dat)
