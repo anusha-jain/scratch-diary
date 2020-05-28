@@ -1,0 +1,27 @@
+.center {
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+	width:50%;
+} 
+
+.picture {
+	margin-left:auto;
+	margin-right:auto;
+	width:40%;
+	height:50%;
+}
+
+.music {
+	margin-left:auto;
+	margin-right:auto;
+	width:50%;
+}
+
+button {background-color:#333; border-radius:5px;
+		display:block; border:2px solid snow;
+		color:snow; padding:12px 12px;}
+		
+button:hover {background-color:white; border-radius:5px;
+		display:block; border:5px solid #333; padding:9px 9px;
+		color:black;}
